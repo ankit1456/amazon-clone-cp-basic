@@ -1,0 +1,78 @@
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  height: 7rem;
+  width: 100%;
+  background-color: var(--color-blue);
+  padding-inline: 3rem;
+  color: var(--color-white);
+  gap: 2rem;
+  &__logo {
+    height: 3.5rem;
+    object-fit: contain;
+    margin-bottom: -1.4rem;
+  }
+
+  &__options {
+    gap: 2.5rem;
+  }
+
+  &__option {
+    display: flex;
+    flex-direction: column;
+
+    &--1 {
+      font-size: small;
+      font-weight: 300;
+    }
+    &--2 {
+      margin-top: -0.4rem;
+      font-weight: 600;
+    }
+
+    &--basket {
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+
+      svg {
+        margin-bottom: -0.7rem;
+        font-size: 2.7rem;
+      }
+
+      &Quantity {
+        font-size: 2rem;
+        font-weight: 700;
+      }
+    }
+  }
+
+  &__searchBox {
+    flex: 1;
+    height: 3.5rem;
+    background: var(--color-white);
+    border-radius: 0.5rem;
+    overflow: hidden;
+
+    input {
+      width: 100%;
+      background-color: transparent;
+      padding-inline: 1rem;
+      font-weight: 400;
+      letter-spacing: 1px;
+    }
+
+    button {
+      height: 100%;
+      padding: 1rem;
+      justify-content: center;
+      background-color: var(--color-yellow);
+
+      svg {
+        font-size: 2rem;
+        margin-right: -0.4rem;
+      }
+    }
+  }
+}

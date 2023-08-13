@@ -1,0 +1,50 @@
+.checkout {
+  display: flex;
+  align-items: flex-start;
+  width: 90%;
+  margin: 2rem auto;
+  gap: 3rem;
+
+  &__heading {
+    font-size: 3rem;
+    margin-top: 2rem;
+    margin-left: 3rem;
+    border-bottom: 1px solid lightgray;
+    width: 92%;
+    padding-bottom: 2rem;
+  }
+
+  &__ad {
+    width: 100%;
+    height: 20vh;
+    object-fit: contain;
+  }
+
+  &__orders {
+    flex: 0.7;
+    margin: 2rem;
+  }
+
+  &__items {
+    margin: 5rem;
+    margin-left: 3rem;
+  }
+  &__total {
+    flex: 0.3;
+    background-color: whitesmoke;
+    padding: 2rem;
+    border: 1px solid lightgray;
+    border-radius: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.6rem;
+  }
+
+  &__gift {
+    input {
+      width: 1.5rem;
+      height: 1.5rem;
+      margin-right: 1rem;
+    }
+  }
+}
