@@ -1,0 +1,37 @@
+body {
+  padding-bottom: 0;
+}
+
+.payment-failed {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-color: #f0f0f0;
+
+  h2 {
+    font-size: 2.4rem;
+    margin-bottom: 1.6rem;
+  }
+
+  p {
+    font-size: 1.8rem;
+    text-align: center;
+    margin-bottom: 3.2rem;
+  }
+
+  .back-to-home-button {
+    padding: 1rem 2rem;
+    background-color: #ff0000;
+    color: #ffffff;
+    border: none;
+    border-radius: 0.4rem;
+    font-size: 1.6rem;
+    cursor: pointer;
+
+    &:hover {
+      background-color: #cc0000;
+    }
+  }
+}

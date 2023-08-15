@@ -5,9 +5,21 @@ import { Link } from "react-router-dom";
 import { useStateValue } from "../hooks/useStateValue";
 import auth from "../firebase";
 import { ACTION_TYPES_CONSTANTS } from "../constants/actionTypeConstants";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
+import { useState, MouseEvent } from "react";
 
 const Header = () => {
   const [{ orders, user }, dispatch] = useStateValue();
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+
+  const handleClick = (event: MouseEvent<HTMLSpanElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
   const handleSignout = () => {
     auth.signOut();
@@ -35,7 +47,14 @@ const Header = () => {
         <Link to={user ? "/" : "/login"}>
           <div className="header__option">
             <span className="header__option--1">Hello</span>
-            <span className="header__option--2">
+            <span
+              className="header__option--2"
+              id="basic-button"
+              aria-controls={open ? "basic-menu" : undefined}
+              aria-haspopup="true"
+              aria-expanded={open ? "true" : undefined}
+              onClick={handleClick}
+            >
               {user
                 ? `${user.email
                     ?.split("@")[0]
@@ -44,6 +63,29 @@ const Header = () => {
                 : "Sign in"}
             </span>
           </div>
+          {user && (
+            <Menu
+              id="basic-menu"
+              anchorEl={anchorEl}
+              open={open}
+              onClose={handleClose}
+              MenuListProps={{
+                "aria-labelledby": "basic-button",
+              }}
+            >
+              {orders.length > 0 && (
+                <Link to="/orders">
+                  <MenuItem sx={{ fontSize: "1.7rem" }} onClick={handleClose}>
+                    Orders
+                  </MenuItem>
+                </Link>
+              )}
+
+              <MenuItem sx={{ fontSize: "1.7rem" }} onClick={handleSignout}>
+                Log out
+              </MenuItem>
+            </Menu>
+          )}
         </Link>
 
         <div className="header__option">
@@ -65,12 +107,6 @@ const Header = () => {
             </span>
           </div>
         </Link>
-
-        {user && (
-          <button onClick={handleSignout} className="btn">
-            Log out
-          </button>
-        )}
       </div>
     </header>
   );

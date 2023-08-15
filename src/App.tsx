@@ -6,6 +6,9 @@ import Login from "./components/Login";
 import Register from "./components/Register";
 import { StateProvider } from "./context/StateProvider";
 import { initialState, reducer } from "./context/reducer";
+import Success from "./components/Success";
+import Cancel from "./components/Cancel";
+import Orders from "./components/Orders";
 
 function App() {
   return (
@@ -24,9 +27,20 @@ function App() {
 
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/success" element={<Success />} />
+          <Route path="/cancel" element={<Cancel />} />
+          <Route
+            path="/orders"
+            element={
+              <>
+                <Header />
+                <Orders />
+              </>
+            }
+          />
 
           <Route
-            path="/"
+            index
             element={
               <>
                 <Header />

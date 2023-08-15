@@ -7,9 +7,10 @@ import { ACTION_TYPES_CONSTANTS } from "../constants/actionTypeConstants";
 
 type OrderProps = {
   order: OrderModel;
+  myOrders: boolean;
 };
 
-const Order = ({ order }: OrderProps) => {
+const Order = ({ order, myOrders }: OrderProps) => {
   const [, dispatch] = useStateValue();
 
   const handleChangeOrderQuantity = (e: ChangeEvent<HTMLSelectElement>) => {
@@ -33,7 +34,7 @@ const Order = ({ order }: OrderProps) => {
       <div className="order__info">
         <p className="order__title">{order.title}</p>
         <p>
-          $ <strong>{order.price}</strong>
+          ₹ <strong>{order.price}</strong>
         </p>
 
         <div className="order__rating">
@@ -52,9 +53,11 @@ const Order = ({ order }: OrderProps) => {
           ))}
         </select>
 
-        <button onClick={removeFromCart} className="btn order__btn">
-          Remove from cart
-        </button>
+        {!myOrders && (
+          <button onClick={removeFromCart} className="btn order__btn">
+            Remove from cart
+          </button>
+        )}
       </div>
     </div>
   );
