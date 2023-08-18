@@ -19,16 +19,19 @@ const Checkout = () => {
       return;
     }
     try {
-      const res = await axios.post("http://localhost:4000/checkout-session", {
-        orders: orders.map((order) => ({
-          id: order.id,
-          quantity: order.quantity,
-          price: order.price,
-          name: order.title,
-          image: order.imageurl,
-        })),
-        email: user?.email,
-      });
+      const res = await axios.post(
+        "https://amazon-clone-stripe-backend.onrender.com/checkout-session",
+        {
+          orders: orders.map((order) => ({
+            id: order.id,
+            quantity: order.quantity,
+            price: order.price,
+            name: order.title,
+            image: order.imageurl,
+          })),
+          email: user?.email,
+        }
+      );
 
       window.location = res.data.url;
     } catch (error) {
@@ -54,34 +57,29 @@ const Checkout = () => {
           ))}
         </div>
       </div>
-      <div className="checkout__total">
-        <p>
-          Subtotal (4 items ): ₹ <strong>{totalAmount.toFixed(2)} </strong>
-        </p>
 
-        {orders.length > 0 && (
+      {orders.length > 0 && (
+        <div className="checkout__total">
+          <p>
+            Subtotal (4 items ): ₹ <strong>{totalAmount.toFixed(2)} </strong>
+          </p>
+
           <div className="checkout__gift d-flex">
             <input type="checkbox" id="gift" />
             <label htmlFor="gift">This order contains a gift</label>
           </div>
-        )}
 
-        {user ? (
-          orders.length > 0 ? (
+          {user ? (
             <button className="btn checkout__btn" onClick={handleCheckout}>
               Proceed to Checkout
             </button>
           ) : (
-            <Link to="/">
-              <button className="btn checkout__btn">Continue Shopping</button>
+            <Link to="/login">
+              <button className="btn checkout__btn">Login to Checkout</button>
             </Link>
-          )
-        ) : (
-          <Link to="/login">
-            <button className="btn checkout__btn">Login to Checkout</button>
-          </Link>
-        )}
-      </div>
+          )}
+        </div>
+      )}
     </div>
   );
 };
