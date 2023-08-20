@@ -1,28 +1,26 @@
-import { Link } from "react-router-dom";
 import "../css/checkout.scss";
-import { useStateValue } from "../hooks/useStateValue";
 import Order from "./Order";
+import { MyOrder } from "../models/MyOrder";
 
-const Orders = () => {
-  const [{ orders }] = useStateValue();
-  console.log("orders:", orders);
+type OrderProps = {
+  myOrder: MyOrder;
+};
 
+const Orders = ({ myOrder }: OrderProps) => {
   return (
     <div className="checkout">
       <div className="checkout__orders">
-        <h4 className="checkout__heading">
-          {orders.length > 0 ? " Your Orders" : "You have not ordered anything"}
-        </h4>
-        {orders.length === 0 && (
-          <Link to="/">
-            <button className="checkout__noOrder">Start shopping </button>
-          </Link>
-        )}
-
         <div className="checkout__items">
-          {orders.map((order) => (
-            <Order myOrders={true} key={order.id} order={order} />
+          {myOrder?.products.map((product) => (
+            <Order myOrders={true} key={product.id} order={product} />
           ))}
+        </div>
+
+        <div className="checkout__orderDetails">
+          <p>Subtoal : ₹ {myOrder.subtotal}</p>
+          <p>Shipping Fee : ₹ 0.00</p>
+          <p>Payment Status: {myOrder.payment_status}</p>
+          <p>Total: ₹ {myOrder.total}</p>
         </div>
       </div>
     </div>

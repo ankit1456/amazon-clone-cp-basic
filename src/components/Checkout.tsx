@@ -22,13 +22,7 @@ const Checkout = () => {
       const res = await axios.post(
         "https://amazon-clone-stripe-backend.onrender.com/checkout-session",
         {
-          orders: orders.map((order) => ({
-            id: order.id,
-            quantity: order.quantity,
-            price: order.price,
-            name: order.title,
-            image: order.imageurl,
-          })),
+          orders,
           email: user?.email,
         }
       );
@@ -50,6 +44,10 @@ const Checkout = () => {
         <h4 className="checkout__heading">
           Your Shopping Cart {orders.length === 0 && "is empty"}
         </h4>
+
+        <Link to="/">
+          <button className="checkout__noOrder">Continue shopping </button>
+        </Link>
 
         <div className="checkout__items">
           {orders.map((order) => (

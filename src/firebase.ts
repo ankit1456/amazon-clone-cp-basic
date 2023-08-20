@@ -1,17 +1,20 @@
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
+import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyC8xTfSK6Nqy5-a5lRqmVBoXmzijJAxni4",
-  authDomain: "clone-e3030.firebaseapp.com",
-  databaseURL: "https://clone-e3030.firebaseio.com",
-  projectId: "clone-e3030",
-  storageBucket: "clone-e3030.appspot.com",
-  messagingSenderId: "280902616716",
-  appId: "1:280902616716:web:2c76de5710d38a7b309da9",
-  measurementId: "G-9GZMV2ME1K",
+  apiKey: "AIzaSyCrJj3aioe7lvCEu66fQhmtbqruvGvVVQk",
+  authDomain: "clone-cp-5ea60.firebaseapp.com",
+  projectId: "clone-cp-5ea60",
+  storageBucket: "clone-cp-5ea60.appspot.com",
+  messagingSenderId: "438660005260",
+  appId: "1:438660005260:web:02982604030e1d698aeaa9",
+  measurementId: "G-V6BY19X4DC",
 };
 
 const firebaseApp = initializeApp(firebaseConfig);
 
-export default getAuth(firebaseApp);
+const auth = getAuth(firebaseApp);
+const db = getFirestore(firebaseApp);
+
+export { auth, db };

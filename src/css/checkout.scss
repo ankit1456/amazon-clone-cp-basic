@@ -26,9 +26,19 @@
 
   &__orders {
     flex: 0.7;
-    margin: 2rem;
   }
 
+  &__orderDetails {
+    font-weight: 500;
+    margin-top: -1rem;
+    margin-inline: 3rem;
+    border-bottom: 1px solid var(--color-black);
+    padding-bottom: 1rem;
+
+    & > p:nth-child(3) {
+      color: green !important;
+    }
+  }
   &__items {
     margin: 5rem;
     margin-left: 3rem;
@@ -53,11 +63,11 @@
   }
 
   &__noOrder {
-    padding: 1rem 2rem; /* 10px 20px */
+    padding: 1rem 2rem;
     background-color: var(--color-yellow);
     border: none;
-    border-radius: 0.4rem; /* 4px */
-    font-size: 1.6rem; /* 16px */
+    border-radius: 0.4rem;
+    font-size: 1.6rem;
     cursor: pointer;
     margin: 2rem;
 

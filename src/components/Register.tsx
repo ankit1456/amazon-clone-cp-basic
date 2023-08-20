@@ -3,7 +3,7 @@ import { useState, FormEvent } from "react";
 import "../css/auth.scss";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { FirebaseError } from "firebase/app";
-import auth from "../firebase";
+import { auth } from "../firebase";
 import { useStateValue } from "../hooks/useStateValue";
 import { ACTION_TYPES_CONSTANTS } from "../constants/actionTypeConstants";
 

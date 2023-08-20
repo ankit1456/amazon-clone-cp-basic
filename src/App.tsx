@@ -8,7 +8,7 @@ import { StateProvider } from "./context/StateProvider";
 import { initialState, reducer } from "./context/reducer";
 import Success from "./components/Success";
 import Cancel from "./components/Cancel";
-import Orders from "./components/Orders";
+import MyOrders from "./components/MyOrders";
 
 function App() {
   return (
@@ -34,7 +34,7 @@ function App() {
             element={
               <>
                 <Header />
-                <Orders />
+                <MyOrders />
               </>
             }
           />

@@ -70,3 +70,49 @@ button {
     background-color: rgb(241, 158, 4);
   }
 }
+
+@media (max-width: 978px) {
+  html {
+    font-size: 55%;
+  }
+  .header {
+    display: flex;
+    justify-content: space-between;
+
+    &__searchBox {
+      display: none;
+    }
+
+    &__options {
+      font-size: 1.2rem;
+    }
+  }
+
+  .checkout {
+    width: 100%;
+    padding-inline: 1rem;
+    &__ad {
+      width: 100%;
+    }
+    flex-direction: column-reverse;
+
+    &__total {
+      width: 90%;
+      margin: 0 auto;
+      margin-bottom: -5rem;
+    }
+  }
+
+  .order {
+    width: 100%;
+    flex-direction: column;
+  }
+
+  .myOrder {
+    overflow: hidden;
+    width: 100%;
+    &__ad {
+      width: 100%;
+    }
+  }
+}

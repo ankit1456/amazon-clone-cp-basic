@@ -8,6 +8,7 @@
   padding-inline: 3rem;
   color: var(--color-white);
   gap: 2rem;
+
   &__logo {
     height: 3.5rem;
     object-fit: contain;
@@ -29,6 +30,7 @@
     &--2 {
       margin-top: -0.4rem;
       font-weight: 600;
+      cursor: pointer;
     }
 
     &--basket {

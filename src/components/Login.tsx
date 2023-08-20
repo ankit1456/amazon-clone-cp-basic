@@ -1,7 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useState, FormEvent } from "react";
 import "../css/auth.scss";
-import auth from "../firebase";
+import { auth } from "../firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { useStateValue } from "../hooks/useStateValue";
 import { ACTION_TYPES_CONSTANTS } from "../constants/actionTypeConstants";

@@ -3,14 +3,17 @@ import SearchIcon from "@mui/icons-material/Search";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import { Link } from "react-router-dom";
 import { useStateValue } from "../hooks/useStateValue";
-import auth from "../firebase";
+import { auth, db } from "../firebase";
 import { ACTION_TYPES_CONSTANTS } from "../constants/actionTypeConstants";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
-import { useState, MouseEvent } from "react";
+import { useState, MouseEvent, useEffect, useCallback } from "react";
+import { User } from "firebase/auth";
+import { collection, getDocs, query, where } from "firebase/firestore";
+import { MyOrder } from "../models/MyOrder";
 
 const Header = () => {
-  const [{ orders, user }, dispatch] = useStateValue();
+  const [{ user, myOrders, orders }, dispatch] = useStateValue();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
 
@@ -25,6 +28,31 @@ const Header = () => {
     auth.signOut();
     dispatch({ type: ACTION_TYPES_CONSTANTS.SIGNOUT_USER, payload: null });
   };
+
+  const getOrders = useCallback(
+    async (user: User | null) => {
+      if (user) {
+        try {
+          const querySnapshot = await getDocs(
+            query(collection(db, "orders"), where("email", "==", user?.email))
+          );
+
+          dispatch({
+            type: ACTION_TYPES_CONSTANTS.SET_MY_ORDERS,
+            payload: querySnapshot.docs.map((doc) => doc.data()) as MyOrder[],
+          });
+        } catch (error) {
+          console.log("error", error);
+        }
+      }
+    },
+    [dispatch]
+  );
+
+  useEffect(() => {
+    getOrders(user);
+  }, [getOrders, user]);
+
   return (
     <header className="header d-flex">
       <Link to="/">
@@ -44,26 +72,23 @@ const Header = () => {
       </div>
 
       <div className="header__options d-flex">
-        <Link to={user ? "/" : "/login"}>
-          <div className="header__option">
-            <span className="header__option--1">Hello</span>
-            <span
-              className="header__option--2"
-              id="basic-button"
-              aria-controls={open ? "basic-menu" : undefined}
-              aria-haspopup="true"
-              aria-expanded={open ? "true" : undefined}
-              onClick={handleClick}
-            >
-              {user
-                ? `${user.email
-                    ?.split("@")[0]
-                    .charAt(0)
-                    .toLocaleUpperCase()}${user.email?.split("@")[0]?.slice(1)}`
-                : "Sign in"}
-            </span>
-          </div>
-          {user && (
+        {user && (
+          <>
+            <div className="header__option">
+              <span className="header__option--1">Hello</span>
+              <span
+                className="header__option--2"
+                id="basic-button"
+                aria-controls={open ? "basic-menu" : undefined}
+                aria-haspopup="true"
+                aria-expanded={open ? "true" : undefined}
+                onClick={handleClick}
+              >
+                {user.email?.split("@")[0].charAt(0).toLocaleUpperCase()}
+                {user.email?.split("@")[0]?.slice(1)}
+              </span>
+            </div>
+
             <Menu
               id="basic-menu"
               anchorEl={anchorEl}
@@ -73,7 +98,7 @@ const Header = () => {
                 "aria-labelledby": "basic-button",
               }}
             >
-              {orders.length > 0 && (
+              {myOrders.length > 0 && (
                 <Link to="/orders">
                   <MenuItem sx={{ fontSize: "1.7rem" }} onClick={handleClose}>
                     Orders
@@ -85,8 +110,17 @@ const Header = () => {
                 Log out
               </MenuItem>
             </Menu>
-          )}
-        </Link>
+          </>
+        )}
+
+        {!user && (
+          <Link to="/login">
+            <div className="header__option">
+              <span className="header__option--1">Hello</span>
+              <span>Sign in</span>
+            </div>
+          </Link>
+        )}
 
         <div className="header__option">
           <span className="header__option--1">Returns</span>

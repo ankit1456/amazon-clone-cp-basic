@@ -4,7 +4,7 @@ import "../css/home.scss";
 import ProductList from "./ProductList";
 import { useStateValue } from "../hooks/useStateValue";
 import { useEffect } from "react";
-import auth from "../firebase";
+import { auth } from "../firebase";
 
 const Home = () => {
   const [, dispatch] = useStateValue();
