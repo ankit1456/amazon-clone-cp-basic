@@ -1,10 +1,12 @@
 .order {
+  width: 100%;
   position: relative;
   display: flex;
   margin-bottom: 2rem;
   padding: 2rem;
   box-shadow: 0rem 0.2rem 2rem rgba(0, 0, 0, 0.1);
   gap: 5rem;
+
   &__image {
     flex: 0.2;
     object-fit: contain;

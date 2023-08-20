@@ -40,8 +40,10 @@
     }
   }
   &__items {
-    margin: 5rem;
-    margin-left: 3rem;
+    min-width: 40vw;
+    margin-top: 2rem;
+    margin-left: 2rem;
+    // background: green;
   }
   &__total {
     flex: 0.3;

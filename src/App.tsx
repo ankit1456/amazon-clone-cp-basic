@@ -6,7 +6,6 @@ import Login from "./components/Login";
 import Register from "./components/Register";
 import { StateProvider } from "./context/StateProvider";
 import { initialState, reducer } from "./context/reducer";
-import Success from "./components/Success";
 import Cancel from "./components/Cancel";
 import MyOrders from "./components/MyOrders";
 
@@ -27,7 +26,6 @@ function App() {
 
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/success" element={<Success />} />
           <Route path="/cancel" element={<Cancel />} />
           <Route
             path="/orders"

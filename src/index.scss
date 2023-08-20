@@ -71,9 +71,9 @@ button {
   }
 }
 
-@media (max-width: 978px) {
+@media (max-width: 768px) {
   html {
-    font-size: 55%;
+    font-size: 58%;
   }
   .header {
     display: flex;
@@ -86,15 +86,21 @@ button {
     &__options {
       font-size: 1.2rem;
     }
+
+    img {
+      width: 80%;
+    }
   }
 
   .checkout {
     width: 100%;
     padding-inline: 1rem;
-    &__ad {
-      width: 100%;
-    }
     flex-direction: column-reverse;
+    &__ad {
+      width: 80%;
+      display: block;
+      margin: 0 auto;
+    }
 
     &__total {
       width: 90%;
@@ -109,10 +115,20 @@ button {
   }
 
   .myOrder {
+    padding: 0;
     overflow: hidden;
     width: 100%;
+
+    .checkout__items {
+      margin: 0 auto;
+      margin-left: 1rem;
+    }
+
     &__ad {
-      width: 100%;
+      display: block;
+      margin: 0 auto;
+      background: green;
+      width: 90%;
     }
   }
 }
