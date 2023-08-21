@@ -13,6 +13,11 @@ const Checkout = () => {
     0
   );
 
+  const totalProducts = orders?.reduce(
+    (total, order) => order.quantity + total,
+    0
+  );
+
   const handleCheckout = async () => {
     if (orders.length <= 0) {
       navigate("/");
@@ -21,6 +26,7 @@ const Checkout = () => {
     try {
       const res = await axios.post(
         "https://amazon-clone-stripe-backend.onrender.com/checkout-session",
+
         {
           orders,
           email: user?.email,
@@ -59,7 +65,8 @@ const Checkout = () => {
       {orders.length > 0 && (
         <div className="checkout__total">
           <p>
-            Subtotal (4 items ): ₹ <strong>{totalAmount.toFixed(2)} </strong>
+            Subtotal ({totalProducts} items ): ₹
+            <strong>{totalAmount.toFixed(2)} </strong>
           </p>
 
           <div className="checkout__gift d-flex">

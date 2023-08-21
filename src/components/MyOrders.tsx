@@ -45,6 +45,7 @@ const MyOrders = () => {
             payload: authUser,
           });
         } else {
+          setLoading(false);
           dispatch({
             type: ACTION_TYPES_CONSTANTS.SAVE_USER,
             payload: null,
