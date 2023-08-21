@@ -1,4 +1,3 @@
-import { MyOrder } from "./../models/MyOrder";
 import { User } from "firebase/auth";
 import { ACTION_TYPES_CONSTANTS } from "./actionTypeConstants";
 import { Order } from "../models/Order";
@@ -14,8 +13,4 @@ export type Actions =
   | {
       type: ACTION_TYPES_CONSTANTS.SIGNOUT_USER;
       payload: null;
-    }
-  | {
-      type: ACTION_TYPES_CONSTANTS.SET_MY_ORDERS;
-      payload: MyOrder[];
     };

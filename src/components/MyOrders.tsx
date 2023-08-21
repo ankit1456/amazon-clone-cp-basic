@@ -11,33 +11,28 @@ import { Link } from "react-router-dom";
 
 const MyOrders = () => {
   const [loading, setLoading] = useState(true);
-  const [{ myOrders, user }, dispatch] = useStateValue();
+  const [orders, setOrders] = useState<MyOrder[]>([]);
+  const [{ user }, dispatch] = useStateValue();
 
-  const getOrders = useCallback(
-    async (user: User | null) => {
-      if (user) {
-        try {
-          const querySnapshot = await getDocs(
-            query(
-              collection(db, "orders"),
-              where("email", "==", user?.email),
-              orderBy("timestamp", "desc")
-            )
-          );
+  const getOrders = useCallback(async (user: User | null) => {
+    if (user) {
+      try {
+        const querySnapshot = await getDocs(
+          query(
+            collection(db, "orders"),
+            where("email", "==", user?.email),
+            orderBy("timestamp", "desc")
+          )
+        );
 
-          dispatch({
-            type: ACTION_TYPES_CONSTANTS.SET_MY_ORDERS,
-            payload: querySnapshot.docs.map((doc) => doc.data()) as MyOrder[],
-          });
-          setLoading(false);
-        } catch (error) {
-          console.log("error", error);
-          setLoading(false);
-        }
+        setOrders(querySnapshot.docs.map((doc) => doc.data()) as MyOrder[]);
+        setLoading(false);
+      } catch (error) {
+        console.log("error", error);
+        setLoading(false);
       }
-    },
-    [dispatch]
-  );
+    }
+  }, []);
 
   useEffect(() => {
     const unsubscribe: Unsubscribe = onAuthStateChanged(
@@ -79,7 +74,7 @@ const MyOrders = () => {
       ) : user ? (
         <div className="checkout__orders">
           <h4 className="checkout__heading">
-            {myOrders.length > 0
+            {orders.length > 0
               ? "Your Orders"
               : "You have not ordered anything"}
           </h4>
@@ -89,7 +84,7 @@ const MyOrders = () => {
           </Link>
 
           <div className="checkout__items">
-            {myOrders.map((order) => (
+            {orders.map((order) => (
               <Orders key={order.id} myOrder={order} />
             ))}
           </div>

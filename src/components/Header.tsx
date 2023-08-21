@@ -13,7 +13,8 @@ import { collection, getDocs, query, where } from "firebase/firestore";
 import { MyOrder } from "../models/MyOrder";
 
 const Header = () => {
-  const [{ user, myOrders, orders }, dispatch] = useStateValue();
+  const [{ user, orders }, dispatch] = useStateValue();
+  const [myOrders, setMyOrders] = useState<MyOrder[]>([]);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
 
@@ -29,25 +30,18 @@ const Header = () => {
     dispatch({ type: ACTION_TYPES_CONSTANTS.SIGNOUT_USER, payload: null });
   };
 
-  const getOrders = useCallback(
-    async (user: User | null) => {
-      if (user) {
-        try {
-          const querySnapshot = await getDocs(
-            query(collection(db, "orders"), where("email", "==", user?.email))
-          );
-
-          dispatch({
-            type: ACTION_TYPES_CONSTANTS.SET_MY_ORDERS,
-            payload: querySnapshot.docs.map((doc) => doc.data()) as MyOrder[],
-          });
-        } catch (error) {
-          console.log("error", error);
-        }
+  const getOrders = useCallback(async (user: User | null) => {
+    if (user) {
+      try {
+        const querySnapshot = await getDocs(
+          query(collection(db, "orders"), where("email", "==", user?.email))
+        );
+        setMyOrders(querySnapshot.docs.map((doc) => doc.data()) as MyOrder[]);
+      } catch (error) {
+        console.log("error", error);
       }
-    },
-    [dispatch]
-  );
+    }
+  }, []);
 
   useEffect(() => {
     getOrders(user);

@@ -1,18 +1,15 @@
 import { Order } from "../models/Order";
-import { MyOrder } from "../models/MyOrder";
 import { Actions } from "../constants/Actions";
 import { ACTION_TYPES_CONSTANTS } from "../constants/actionTypeConstants";
 import { Reducer } from "react";
 import { User } from "firebase/auth";
 
 export type initialStateType = {
-  myOrders: MyOrder[];
   orders: Order[];
   user: User | null;
 };
 
 export const initialState: initialStateType = {
-  myOrders: [],
   orders: [],
   user: null,
 };
@@ -67,11 +64,6 @@ export const reducer: Reducer<initialStateType, Actions> = (
       return {
         ...state,
         user: payload,
-      };
-    case ACTION_TYPES_CONSTANTS.SET_MY_ORDERS:
-      return {
-        ...state,
-        myOrders: payload,
       };
 
     default:
