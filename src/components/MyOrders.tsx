@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback } from "react";
 import "../css/myOrders.scss";
 import { MyOrder } from "../models/MyOrder";
 import { Unsubscribe, User, onAuthStateChanged } from "firebase/auth";
-import { collection, getDocs, orderBy, query, where } from "firebase/firestore";
+import { collection, getDocs, query, where } from "firebase/firestore";
 import { auth, db } from "../firebase";
 import { useStateValue } from "../hooks/useStateValue";
 import { ACTION_TYPES_CONSTANTS } from "../constants/actionTypeConstants";
@@ -14,23 +14,33 @@ const MyOrders = () => {
   const [orders, setOrders] = useState<MyOrder[]>([]);
   const [{ user }, dispatch] = useStateValue();
 
-  const getOrders = useCallback(async (user: User | null) => {
-    if (user) {
-      try {
-        const querySnapshot = await getDocs(
-          query(
-            collection(db, "orders"),
-            where("email", "==", user?.email),
-            orderBy("timestamp", "desc")
-          )
-        );
+  const getOrders = useCallback(async (authUser: User) => {
+    try {
+      const querySnapshot = await getDocs(
+        query(collection(db, "orders"), where("email", "==", authUser?.email))
+      );
 
-        setOrders(querySnapshot.docs.map((doc) => doc.data()) as MyOrder[]);
-        setLoading(false);
-      } catch (error) {
-        console.log("error", error);
-        setLoading(false);
+      const myOrders = querySnapshot.docs
+        .map((doc) => doc.data())
+        .reverse() as MyOrder[];
+
+      const seen = new Map();
+      const uniqueOrders = [];
+
+      for (const item of myOrders) {
+        const key = item.id;
+        if (!seen.has(key)) {
+          seen.set(key, true);
+          uniqueOrders.push(item);
+        }
       }
+
+      setOrders(uniqueOrders);
+
+      setLoading(false);
+    } catch (error) {
+      console.log("error", error);
+      setLoading(false);
     }
   }, []);
 
@@ -61,6 +71,12 @@ const MyOrders = () => {
       unsubscribe();
     };
   }, [dispatch, getOrders]);
+
+  useEffect(() => {
+    if (user) {
+      getOrders(user);
+    }
+  }, [getOrders, user]);
 
   return (
     <div className="myOrder">
