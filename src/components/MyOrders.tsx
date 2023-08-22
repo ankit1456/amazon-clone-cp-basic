@@ -1,17 +1,18 @@
 import { useState, useEffect, useCallback } from "react";
 import "../css/myOrders.scss";
 import { MyOrder } from "../models/MyOrder";
-import { User } from "firebase/auth";
+import { Unsubscribe, User, onAuthStateChanged } from "firebase/auth";
 import { collection, getDocs, query, where } from "firebase/firestore";
-import { db } from "../firebase";
+import { auth, db } from "../firebase";
 import { useStateValue } from "../hooks/useStateValue";
+import { ACTION_TYPES_CONSTANTS } from "../constants/actionTypeConstants";
 import Orders from "./Orders";
 import { Link } from "react-router-dom";
 
 const MyOrders = () => {
   const [loading, setLoading] = useState(true);
   const [orders, setOrders] = useState<MyOrder[]>([]);
-  const [{ user }] = useStateValue();
+  const [{ user }, dispatch] = useStateValue();
 
   const getOrders = useCallback(async (authUser: User) => {
     try {
@@ -43,33 +44,33 @@ const MyOrders = () => {
     }
   }, []);
 
-  // useEffect(() => {
-  //   const unsubscribe: Unsubscribe = onAuthStateChanged(
-  //     auth,
-  //     (authUser: User | null) => {
-  //       if (authUser) {
-  //         getOrders(authUser);
-  //         dispatch({
-  //           type: ACTION_TYPES_CONSTANTS.SAVE_USER,
-  //           payload: authUser,
-  //         });
-  //       } else {
-  //         setLoading(false);
-  //         dispatch({
-  //           type: ACTION_TYPES_CONSTANTS.SAVE_USER,
-  //           payload: null,
-  //         });
-  //       }
-  //     },
-  //     (error: Error) => {
-  //       console.log(error.message);
-  //     }
-  //   );
+  useEffect(() => {
+    const unsubscribe: Unsubscribe = onAuthStateChanged(
+      auth,
+      (authUser: User | null) => {
+        if (authUser) {
+          getOrders(authUser);
+          dispatch({
+            type: ACTION_TYPES_CONSTANTS.SAVE_USER,
+            payload: authUser,
+          });
+        } else {
+          setLoading(false);
+          dispatch({
+            type: ACTION_TYPES_CONSTANTS.SAVE_USER,
+            payload: null,
+          });
+        }
+      },
+      (error: Error) => {
+        console.log(error.message);
+      }
+    );
 
-  //   return () => {
-  //     unsubscribe();
-  //   };
-  // }, [dispatch, getOrders]);
+    return () => {
+      unsubscribe();
+    };
+  }, [dispatch, getOrders]);
 
   useEffect(() => {
     if (user) {
