@@ -44,33 +44,33 @@ const MyOrders = () => {
     }
   }, []);
 
-  useEffect(() => {
-    const unsubscribe: Unsubscribe = onAuthStateChanged(
-      auth,
-      (authUser: User | null) => {
-        if (authUser) {
-          getOrders(authUser);
-          dispatch({
-            type: ACTION_TYPES_CONSTANTS.SAVE_USER,
-            payload: authUser,
-          });
-        } else {
-          setLoading(false);
-          dispatch({
-            type: ACTION_TYPES_CONSTANTS.SAVE_USER,
-            payload: null,
-          });
-        }
-      },
-      (error: Error) => {
-        console.log(error.message);
-      }
-    );
+  // useEffect(() => {
+  //   const unsubscribe: Unsubscribe = onAuthStateChanged(
+  //     auth,
+  //     (authUser: User | null) => {
+  //       if (authUser) {
+  //         getOrders(authUser);
+  //         dispatch({
+  //           type: ACTION_TYPES_CONSTANTS.SAVE_USER,
+  //           payload: authUser,
+  //         });
+  //       } else {
+  //         setLoading(false);
+  //         dispatch({
+  //           type: ACTION_TYPES_CONSTANTS.SAVE_USER,
+  //           payload: null,
+  //         });
+  //       }
+  //     },
+  //     (error: Error) => {
+  //       console.log(error.message);
+  //     }
+  //   );
 
-    return () => {
-      unsubscribe();
-    };
-  }, [dispatch, getOrders]);
+  //   return () => {
+  //     unsubscribe();
+  //   };
+  // }, [dispatch, getOrders]);
 
   useEffect(() => {
     if (user) {
