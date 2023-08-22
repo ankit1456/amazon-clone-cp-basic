@@ -1,18 +1,17 @@
 import { useState, useEffect, useCallback } from "react";
 import "../css/myOrders.scss";
 import { MyOrder } from "../models/MyOrder";
-import { Unsubscribe, User, onAuthStateChanged } from "firebase/auth";
+import { User } from "firebase/auth";
 import { collection, getDocs, query, where } from "firebase/firestore";
-import { auth, db } from "../firebase";
+import { db } from "../firebase";
 import { useStateValue } from "../hooks/useStateValue";
-import { ACTION_TYPES_CONSTANTS } from "../constants/actionTypeConstants";
 import Orders from "./Orders";
 import { Link } from "react-router-dom";
 
 const MyOrders = () => {
   const [loading, setLoading] = useState(true);
   const [orders, setOrders] = useState<MyOrder[]>([]);
-  const [{ user }, dispatch] = useStateValue();
+  const [{ user }] = useStateValue();
 
   const getOrders = useCallback(async (authUser: User) => {
     try {
